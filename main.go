@@ -36,6 +36,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/score", getScore)
+	router.GET("/add/:assetclass", getAssets)
 	// router.GET("/albums/:id", getAlbumByID)
 
 	router.Run(":8080")
@@ -63,6 +64,18 @@ func getAlbums(c *gin.Context) {
 
 func getScore(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"score": 84})
+}
+
+func getAssets(c *gin.Context) {
+	switch assetClass := c.Param("assetclass"); assetClass {
+	case "vehicle":
+		c.IndentedJSON(http.StatusOK, "in vehicle")
+	case "house":
+		c.IndentedJSON(http.StatusOK, "In house")
+	default:
+		c.IndentedJSON(http.StatusOK, "Default")
+	}
+
 }
 
 // // getAlbumByID locates the album whose ID value matches the id
