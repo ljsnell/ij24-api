@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/magiconair/properties"
 )
 
 type AssetsRequest struct {
@@ -56,6 +57,9 @@ var ddData *AllDropDowns
 var gapsAndScenarios *GapsAndScenarios
 
 func main() {
+	// init from a file
+	p := properties.MustLoadFile("config.properties", properties.UTF8)
+
 	router := gin.Default()
 	router.GET("/alldropdowns", getDropdownData)
 	router.GET("/score", getScore)
@@ -63,7 +67,11 @@ func main() {
 	router.POST("/calculateRisk", getCalculateRisk)
 	// router.GET("/albums/:id", getAlbumByID)
 
-	router.Run(":8080")
+	if p.MustGetString("host") == "local" {
+		router.Run("localhost:8080")
+	} else {
+		router.Run(":8080")
+	}
 }
 
 // getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
@@ -114,6 +122,7 @@ func getCalculateRisk(c *gin.Context) {
 	}
 
 	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
+
 	if err != nil {
 		log.Fatal(err)
 		return
