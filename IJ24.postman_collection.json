@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "dbff133d-667b-44c2-86a4-735df1c63c9d",
+		"_postman_id": "2c8f5234-b936-4ce1-a6eb-834c85fb7c2e",
 		"name": "IJ24",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6807200"
+		"_exporter_id": "27104842"
 	},
 	"item": [
 		{
@@ -32,6 +32,26 @@
 							],
 							"path": [
 								"alldropdowns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "score",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ij24-api.fly.dev/score",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"score"
 							]
 						}
 					},
