@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/magiconair/properties"
 )
+
+type AssetsRequest struct {
+	Assets []string `json:"assets"`
+}
 
 type Auto struct {
 	Year                []string `json:"year"`
@@ -28,14 +31,30 @@ type Home struct {
 	WoodburningStoves []string `json:"woodburningStoves"`
 	Trampoline        []string `json:"trampoline"`
 	SwimmingPool      []string `json:"swimmingPool"`
+	// scenarios
 }
 
+type Scenario struct {
+	ScenarioName string  `json:"scenario_name"`
+	Cost         float32 `json:"cost"`
+}
+
+type Gap struct {
+	AssetName string  `json:"asset_name"`
+	Quote     float32 `json:"quote"`
+}
+
+type GapsAndScenarios struct {
+	Scenario []Scenario `json:"scenarios"`
+	Gap      []Gap      `json:"gaps"`
+}
 type AllDropDowns struct {
 	Auto Auto `json:"auto"`
 	Home Home `json:"home"`
 }
 
 var ddData *AllDropDowns
+var gapsAndScenarios *GapsAndScenarios
 
 func main() {
 	// init from a file
@@ -45,6 +64,8 @@ func main() {
 	router.GET("/alldropdowns", getDropdownData)
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
+	router.POST("/calculateRisk", getCalculateRisk)
+	// router.GET("/albums/:id", getAlbumByID)
 
 	if p.MustGetString("host") == "local" {
 		router.Run("localhost:8080")
@@ -55,14 +76,12 @@ func main() {
 
 // getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
 func getDropdownData(c *gin.Context) {
-	fileContent, err := os.Open("all-dropdowns-data.json")
+	fileContent, err := os.Open("usr/local/bin/jsons/all-dropdowns-data.json")
 
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-
-	fmt.Println("The File is opened successfully...")
 
 	defer fileContent.Close()
 
@@ -85,4 +104,35 @@ func getAssets(c *gin.Context) {
 	default:
 		c.IndentedJSON(http.StatusOK, gin.H{"risk": 10})
 	}
+}
+
+func getCalculateRisk(c *gin.Context) {
+	// Gets a list of assets. Returns a Json of scenariosAndGaps
+	var assetsReq AssetsRequest
+	if err := c.ShouldBindJSON(&assetsReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON format"})
+		return
+	}
+
+	assets := assetsReq.Assets
+
+	if len(assets) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No assets provided"})
+		return
+	}
+
+	fileContent, err := os.Open("usr/local/bin/jsons/scenarios_and_gaps.json")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	defer fileContent.Close()
+
+	byteResult, _ := io.ReadAll(fileContent)
+
+	json.Unmarshal(byteResult, &gapsAndScenarios)
+	// fmt.Println(albums.Albums)
+	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
+
 }
