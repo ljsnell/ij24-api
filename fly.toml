@@ -9,7 +9,6 @@ primary_region = 'ord'
 [build]
   [build.args]
     GO_VERSION = '1.23.1'
-    BP_KEEP_FILES = "jsons/*"
 
 [env]
   PORT = '8080'

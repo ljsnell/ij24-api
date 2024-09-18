@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -69,14 +68,12 @@ func main() {
 
 // getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
 func getDropdownData(c *gin.Context) {
-	fileContent, err := os.Open("jsons/all-dropdowns-data.json")
+	fileContent, err := os.Open("usr/local/bin/jsons/all-dropdowns-data.json")
 
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-
-	fmt.Println("The File is opened successfully...")
 
 	defer fileContent.Close()
 
@@ -116,7 +113,7 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
-	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
+	fileContent, err := os.Open("usr/local/bin/jsons/scenarios_and_gaps.json")
 	if err != nil {
 		log.Fatal(err)
 		return
