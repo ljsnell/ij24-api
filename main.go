@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/magiconair/properties"
 )
 
 type Auto struct {
@@ -37,12 +38,19 @@ type AllDropDowns struct {
 var ddData *AllDropDowns
 
 func main() {
+	// init from a file
+	p := properties.MustLoadFile("config.properties", properties.UTF8)
+
 	router := gin.Default()
 	router.GET("/alldropdowns", getDropdownData)
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
 
-	router.Run(":8080")
+	if p.MustGetString("host") == "local" {
+		router.Run("localhost:8080")
+	} else {
+		router.Run(":8080")
+	}
 }
 
 // getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
