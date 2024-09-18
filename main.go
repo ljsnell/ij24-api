@@ -14,9 +14,11 @@ import (
 type Asset struct {
 	Name         string  `json:"name"`
 	Value        float32 `json:"value"`
-	CoverageRisk float32 `json:"coverage_risk"`
+	CoverageRisk float32 `json:"coverageRisk"`
+	AssetClass   string  `json:"assetClass"`
 }
 type AssetsRequest struct {
+	Luck   float32 `json:"luck"`
 	Assets []Asset `json:"assets"`
 }
 
@@ -45,8 +47,8 @@ type Scenario struct {
 }
 
 type Gap struct {
-	AssetName string  `json:"asset_name"`
-	Quote     float32 `json:"quote"`
+	AssetName string  `json:"gap_name"`
+	Quote     float32 `json:"cost"`
 }
 
 type GapsAndScenarios struct {
@@ -126,8 +128,8 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
-	// luck (single int), assets [{value: xxx, coverage_risk:1-3}]
-	// Output -> coverage_risk, 3 is greatest risk
+	// luck (single int), assets [{value: xxx, coverageRisk:1-3}]
+	// Output -> coverageRisk, 3 is greatest risk
 	// Scenario
 	// Total payment per scenarios
 	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
