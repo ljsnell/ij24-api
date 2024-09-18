@@ -75,34 +75,34 @@
             "Sportage",
             "Stinger"
         ],
-        "ownorlease": [
+        "ownOrLease": [
             "Owned and do not make payments",
             "Owned and make payments",
             "Lease"
         ],
-        "usecase": [
+        "useCase": [
             "Drive for Pleasure (non-commute)",
             "Drive for Work or School",
             "Used on a farm",
             "Used for a business"
         ],
-        "customequipment": [
+        "customEquipment": [
             "Yes",
             "No"
         ],
-        "peoplelivingwithyou": [
+        "peopleLivingWithYou": [
             "Yes",
             "No"
         ]
     },
     "home": {
-        "dwellingtype": [
+        "dwellingType": [
             "1 family",
             "2 family",
             "3 family",
             "4+ families"
         ],
-        "roofmaterial": [
+        "roofMaterial": [
             "Architectural Shingle",
             "Asphalt Shingle",
             "Fiberglass",
@@ -115,7 +115,7 @@
             "Wood Shingle",
             "Other"
         ],
-        "woodburningstoves": [
+        "woodburningStoves": [
             "0",
             "1",
             "2",
@@ -125,7 +125,7 @@
             "Yes",
             "No"
         ],
-        "swimmingpool": [
+        "swimmingPool": [
             "No",
             "In-ground (fenced)",
             "In-ground (unfenced)",
