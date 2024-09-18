@@ -35,6 +35,7 @@ var albums *Albums
 func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
+	router.GET("/score", getScore)
 	// router.GET("/albums/:id", getAlbumByID)
 
 	router.Run(":8080")
@@ -58,6 +59,10 @@ func getAlbums(c *gin.Context) {
 	json.Unmarshal(byteResult, &albums)
 	fmt.Println(albums.Albums)
 	c.IndentedJSON(http.StatusOK, albums.Albums)
+}
+
+func getScore(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, gin.H{"score": 84})
 }
 
 // // getAlbumByID locates the album whose ID value matches the id
