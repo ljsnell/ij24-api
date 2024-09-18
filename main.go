@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -58,7 +58,7 @@ func getDropdownData(c *gin.Context) {
 
 	defer fileContent.Close()
 
-	byteResult, _ := ioutil.ReadAll(fileContent)
+	byteResult, _ := io.ReadAll(fileContent)
 
 	json.Unmarshal(byteResult, &ddData)
 	c.IndentedJSON(http.StatusOK, ddData)
