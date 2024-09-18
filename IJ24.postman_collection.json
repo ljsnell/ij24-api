@@ -1,31 +1,32 @@
 {
 	"info": {
-		"_postman_id": "1efa0ee8-31c8-43eb-9a72-127c015e96a6",
+		"_postman_id": "dbff133d-667b-44c2-86a4-735df1c63c9d",
 		"name": "IJ24",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6807200"
 	},
 	"item": [
 		{
-			"name": "all items",
+			"name": "all dropdowns",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/albums",
+					"raw": "http://localhost:8080/alldropdowns",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"albums"
+						"alldropdowns"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "single item",
+			"name": "single album",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -39,6 +40,45 @@
 					"path": [
 						"albums",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "score",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/score",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assetclass",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/add/vehicle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add",
+						"vehicle"
 					]
 				}
 			},
