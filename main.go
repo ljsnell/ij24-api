@@ -11,32 +11,43 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Albums struct {
-	Albums []Album `json:"albums"`
+type Auto struct {
+	Year                []string `json:"year"`
+	Make                []string `json:"make"`
+	Model               []string `json:"model"`
+	OwnOrLease          []string `json:"ownOrLease"`
+	UseCase             []string `json:"useCase"`
+	CustomEquipment     []string `json:"customEquipment"`
+	PeopleLivingWithYou []string `json:"peopleLivingWithYou"`
 }
 
-type Album struct {
-	ID     string  `json:"ID"`
-	Title  string  `json:"Title"`
-	Artist string  `json:"Artist"`
-	Price  float32 `json:"Price"`
+type Home struct {
+	DwellingType      []string `json:"dwellingType"`
+	RoofMaterial      []string `json:"roofMaterial"`
+	WoodburningStoves []string `json:"woodburningStoves"`
+	Trampoline        []string `json:"trampoline"`
+	SwimmingPool      []string `json:"swimmingPool"`
 }
 
-var albums *Albums
+type AllDropDowns struct {
+	Auto Auto `json:"auto"`
+	Home Home `json:"home"`
+}
+
+var ddData *AllDropDowns
 
 func main() {
 	router := gin.Default()
-	router.GET("/albums", getAlbums)
+	router.GET("/alldropdowns", getDropdownData)
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
-	// router.GET("/albums/:id", getAlbumByID)
 
 	router.Run(":8080")
 }
 
-// getAlbums responds with the list of all albums as JSON.
-func getAlbums(c *gin.Context) {
-	fileContent, err := os.Open("albums.json")
+// getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
+func getDropdownData(c *gin.Context) {
+	fileContent, err := os.Open("all-dropdowns-data.json")
 
 	if err != nil {
 		log.Fatal(err)
@@ -49,9 +60,8 @@ func getAlbums(c *gin.Context) {
 
 	byteResult, _ := ioutil.ReadAll(fileContent)
 
-	json.Unmarshal(byteResult, &albums)
-	fmt.Println(albums.Albums)
-	c.IndentedJSON(http.StatusOK, albums.Albums)
+	json.Unmarshal(byteResult, &ddData)
+	c.IndentedJSON(http.StatusOK, ddData)
 }
 
 func getScore(c *gin.Context) {
@@ -69,19 +79,3 @@ func getAssets(c *gin.Context) {
 	}
 
 }
-
-// // getAlbumByID locates the album whose ID value matches the id
-// // parameter sent by the client, then returns that album as a response.
-// func getAlbumByID(c *gin.Context) {
-// 	id := c.Param("id")
-
-// 	// Loop over the list of albums, looking for
-// 	// an album whose ID value matches the parameter.
-// 	for _, a := range albums {
-// 		if a.ID == id {
-// 			c.IndentedJSON(http.StatusOK, a)
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
-// }
