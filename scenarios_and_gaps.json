@@ -1,0 +1,30 @@
+{
+    "scenarios": [
+        {
+            "scenario_name": "Broken Window",
+            "cost": 500
+        },
+        {
+            "scenario_name": "Home Fire",
+            "cost": 40000
+        },
+        {
+            "scenario_name": "Stolen Car",
+            "cost": 4200
+        }
+    ],
+    "gaps": [
+        {
+            "scenario_name": "Window Coverage",
+            "cost": 4.25
+        },
+        {
+            "scenario_name": "Optional Fire Add-on",
+            "cost": 28.50
+        },
+        {
+            "scenario_name": "Optional Thievery Add-on",
+            "cost": 4.20
+        }
+    ]
+}

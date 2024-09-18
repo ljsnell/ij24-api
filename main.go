@@ -11,6 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type AssetsRequest struct {
+	Assets []string `json:"assets"`
+}
+
 type Auto struct {
 	Year                []string `json:"year"`
 	Make                []string `json:"make"`
@@ -27,20 +31,38 @@ type Home struct {
 	WoodburningStoves []string `json:"woodburningStoves"`
 	Trampoline        []string `json:"trampoline"`
 	SwimmingPool      []string `json:"swimmingPool"`
+	// scenarios
 }
 
+type Scenario struct {
+	ScenarioName string  `json:"scenario_name"`
+	Cost         float32 `json:"cost"`
+}
+
+type Gap struct {
+	AssetName string  `json:"asset_name"`
+	Quote     float32 `json:"quote"`
+}
+
+type GapsAndScenarios struct {
+	Scenario []Scenario `json:"scenarios"`
+	Gap      []Gap      `json:"gaps"`
+}
 type AllDropDowns struct {
 	Auto Auto `json:"auto"`
 	Home Home `json:"home"`
 }
 
 var ddData *AllDropDowns
+var gapsAndScenarios *GapsAndScenarios
 
 func main() {
 	router := gin.Default()
 	router.GET("/alldropdowns", getDropdownData)
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
+	router.POST("/calculateRisk", getCalculateRisk)
+	// router.GET("/albums/:id", getAlbumByID)
 
 	router.Run(":8080")
 }
@@ -77,5 +99,36 @@ func getAssets(c *gin.Context) {
 	default:
 		c.IndentedJSON(http.StatusOK, "Default")
 	}
+
+}
+
+func getCalculateRisk(c *gin.Context) {
+	// Gets a list of assets. Returns a Json of scenariosAndGaps
+	var assetsReq AssetsRequest
+	if err := c.ShouldBindJSON(&assetsReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON format"})
+		return
+	}
+
+	assets := assetsReq.Assets
+
+	if len(assets) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No assets provided"})
+		return
+	}
+
+	fileContent, err := os.Open("scenarios_and_gaps.json")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	defer fileContent.Close()
+
+	byteResult, _ := io.ReadAll(fileContent)
+
+	json.Unmarshal(byteResult, &gapsAndScenarios)
+	// fmt.Println(albums.Albums)
+	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
 
 }
