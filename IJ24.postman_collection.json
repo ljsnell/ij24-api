@@ -7,105 +7,112 @@
 	},
 	"item": [
 		{
-			"name": "all dropdowns",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/alldropdowns",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"alldropdowns"
-					]
+			"name": "PROD",
+			"item": [
+				{
+					"name": "all dropdowns",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ij24-api.fly.dev/alldropdowns",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"alldropdowns"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "single album",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/albums/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"albums",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "score",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/score",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"score"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "assetclass",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/add/vehicle",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"add",
-						"vehicle"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add item",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"4\",\r\n    \"title\": \"The Modern Sound of Betty Carter\",\r\n    \"artist\": \"Betty Carter\",\r\n    \"price\": 49.99\r\n}"
+			"name": "Local",
+			"item": [
+				{
+					"name": "all dropdowns",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/alldropdowns",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"alldropdowns"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8080/albums",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"albums"
-					]
+				{
+					"name": "single album",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/albums/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"albums",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "score",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/score",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"score"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assetclass",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/add/vehicle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"add",
+								"vehicle"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
