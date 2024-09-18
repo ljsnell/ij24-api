@@ -11,8 +11,13 @@ import (
 	"github.com/magiconair/properties"
 )
 
+type Asset struct {
+	Name         string  `json:"name"`
+	Value        float32 `json:"value"`
+	CoverageRisk float32 `json:"coverage_risk"`
+}
 type AssetsRequest struct {
-	Assets []string `json:"assets"`
+	Assets []Asset `json:"assets"`
 }
 
 type Auto struct {
@@ -121,6 +126,10 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
+	// luck (single int), assets [{value: xxx, coverage_risk:1-3}]
+	// Output -> coverage_risk, 3 is greatest risk
+	// Scenario
+	// Total payment per scenarios
 	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
 
 	if err != nil {

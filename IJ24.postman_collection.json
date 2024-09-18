@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2c8f5234-b936-4ce1-a6eb-834c85fb7c2e",
+		"_postman_id": "dbff133d-667b-44c2-86a4-735df1c63c9d",
 		"name": "IJ24",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27104842"
+		"_exporter_id": "6807200"
 	},
 	"item": [
 		{
@@ -36,26 +36,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "score",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://ij24-api.fly.dev/score",
-							"protocol": "https",
-							"host": [
-								"ij24-api",
-								"fly",
-								"dev"
-							],
-							"path": [
-								"score"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -76,6 +56,34 @@
 							"port": "8080",
 							"path": [
 								"alldropdowns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calculateRisk",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assets\": [\r\n        \"Kia Optima\", \"Embroidery Machine\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/calculateRisk",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"calculateRisk"
 							]
 						}
 					},
