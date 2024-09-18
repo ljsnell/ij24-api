@@ -76,7 +76,8 @@ func main() {
 
 // getDropdownData responds with the list of all dropdown fields the mobile app will need as JSON.
 func getDropdownData(c *gin.Context) {
-	fileContent, err := os.Open("usr/local/bin/jsons/all-dropdowns-data.json")
+	p := properties.MustLoadFile("config.properties", properties.UTF8)
+	fileContent, err := os.Open(p.MustGetString("json_dir") + "jsons/all-dropdowns-data.json")
 
 	if err != nil {
 		log.Fatal(err)
@@ -107,6 +108,8 @@ func getAssets(c *gin.Context) {
 }
 
 func getCalculateRisk(c *gin.Context) {
+	// init from a file
+	p := properties.MustLoadFile("config.properties", properties.UTF8)
 	// Gets a list of assets. Returns a Json of scenariosAndGaps
 	var assetsReq AssetsRequest
 	if err := c.ShouldBindJSON(&assetsReq); err != nil {
@@ -121,7 +124,7 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
-	fileContent, err := os.Open("usr/local/bin/jsons/scenarios_and_gaps.json")
+	fileContent, err := os.Open(p.MustGetString("json_dir") + "jsons/scenarios_and_gaps.json")
 	if err != nil {
 		log.Fatal(err)
 		return
