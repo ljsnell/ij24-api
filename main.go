@@ -93,13 +93,12 @@ func getScore(c *gin.Context) {
 func getAssets(c *gin.Context) {
 	switch assetClass := c.Param("assetclass"); assetClass {
 	case "vehicle":
-		c.IndentedJSON(http.StatusOK, "in vehicle")
+		c.IndentedJSON(http.StatusOK, gin.H{"risk": 71})
 	case "house":
-		c.IndentedJSON(http.StatusOK, "In house")
+		c.IndentedJSON(http.StatusOK, gin.H{"risk": 44})
 	default:
-		c.IndentedJSON(http.StatusOK, "Default")
+		c.IndentedJSON(http.StatusOK, gin.H{"risk": 10})
 	}
-
 }
 
 func getCalculateRisk(c *gin.Context) {
