@@ -13,6 +13,7 @@ FROM debian:bookworm
 
 COPY --from=builder /run-app /usr/local/bin/
 COPY --from=builder /usr/src/app/jsons /usr/local/jsons
+COPY --from=builder /usr/src/app/config.properties /usr/local/config.properties
 
 WORKDIR /usr/local
 CMD ["run-app"]

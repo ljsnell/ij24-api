@@ -107,8 +107,6 @@ func getAssets(c *gin.Context) {
 }
 
 func getCalculateRisk(c *gin.Context) {
-	// init from a file
-	p := properties.MustLoadFile("config.properties", properties.UTF8)
 	// Gets a list of assets. Returns a Json of scenariosAndGaps
 	var assetsReq AssetsRequest
 	if err := c.ShouldBindJSON(&assetsReq); err != nil {
