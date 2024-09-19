@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-resty/resty/v2"
 	"github.com/magiconair/properties"
 )
 
@@ -60,6 +61,8 @@ type AllDropDowns struct {
 
 var ddData *AllDropDowns
 var gapsAndScenarios *GapsAndScenarios
+
+const apiURL = "https://api.openai.com/v1/completions"
 
 func main() {
 	// init from a file
@@ -159,4 +162,28 @@ func getCalculateRisk(c *gin.Context) {
 	fmt.Println(gapsAndScenarios)
 
 	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
+}
+
+// OPEN AI
+func openAi() {
+	apiKey := os.Getenv("OPENAI_API_KEY")
+	client := resty.New()
+
+	response, err := client.R().
+		SetHeader("Authorization", "Bearer "+apiKey).
+		SetHeader("Content-Type", "application/json").
+		SetBody(`{
+            "model": "text-davinci-003",
+            "prompt": "Write a Go function to add two numbers",
+            "max_tokens": 100
+        }`).
+		Post("https://api.openai.com/v1/completions")
+
+	if err != nil {
+		fmt.Println("Error making request:", err)
+		return
+	}
+
+	// Print the response
+	fmt.Println(response)
 }
