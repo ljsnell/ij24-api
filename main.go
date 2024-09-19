@@ -59,6 +59,18 @@ type AllDropDowns struct {
 	Home Home `json:"home"`
 }
 
+type Content struct {
+	RiskRating int `json:"risk_rating"`
+}
+
+type Message struct {
+	Content Content `json:"content"`
+}
+
+type OpenAIResponse struct {
+	Messages []Message `json:"messages"`
+}
+
 var ddData *AllDropDowns
 var gapsAndScenarios *GapsAndScenarios
 
@@ -175,42 +187,66 @@ func getCalculateRisk(c *gin.Context) {
 
 // OPEN AI
 func openAiHandler(c *gin.Context) {
-	data, err := openAi()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+	// data, err := openAi()
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	response := map[string]int{
+		"risk_rating": 75,
 	}
 
 	// Return the JSON response
-	c.IndentedJSON(http.StatusOK, data)
+	c.IndentedJSON(http.StatusOK, response)
 }
-func openAi() (interface{}, error) {
+func openAi() (int, error) {
+	messages := "respond exactly: { 'risk_rating': 75 }"
+	requestData := map[string]interface{}{
+		"model": "gpt-3.5-turbo",
+		"messages": []map[string]string{
+			{
+				"role":    "user",
+				"content": messages,
+			},
+		},
+		"max_tokens": 500,
+	}
+
+	// Marshal the data structure into JSON
+	jsonBytes, err := json.Marshal(requestData)
+	if err != nil {
+		return 0, fmt.Errorf("error marshaling JSON: %w", err)
+	}
+
+	// Convert JSON bytes to string
+	jsonString := string(jsonBytes)
+
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	client := resty.New()
 	response, err := client.R().
 		SetHeader("Authorization", "Bearer "+apiKey).
 		SetHeader("Content-Type", "application/json").
-		SetBody(`{
-            "model": "gpt-3.5-turbo",
-            "messages": [
-        		{"role": "user", "content": "say Hello"}
-    		],
-            "max_tokens": 500
-        }`).
+		SetBody(jsonString).
 		Post("https://api.openai.com/v1/chat/completions")
 
 	if err != nil {
 		fmt.Println("Error making request:", err)
-		return nil, err
+		return 0, err
 	}
 
-	var responseBody map[string]interface{}
+	var responseBody OpenAIResponse
 	err = json.Unmarshal(response.Body(), &responseBody)
 	if err != nil {
-		return nil, err
+		return 0, err
+	}
+	fmt.Println("test")
+	fmt.Println(responseBody.Messages)
+	fmt.Println("test after")
+	if len(responseBody.Messages) > 0 {
+		riskRating := responseBody.Messages[0].Content.RiskRating
+		return riskRating, nil
 	}
 
-	// Print the response
-	fmt.Println(responseBody)
-	return responseBody, nil
+	return 0, fmt.Errorf("no messages found in response")
 }
