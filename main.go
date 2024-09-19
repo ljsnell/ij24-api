@@ -62,7 +62,7 @@ type AllDropDowns struct {
 var ddData *AllDropDowns
 var gapsAndScenarios *GapsAndScenarios
 
-const apiURL = "https://api.openai.com/v1/completions"
+// const apiURL = "https://api.openai.com/v1/chat/completions"
 
 func main() {
 	// init from a file
@@ -73,6 +73,7 @@ func main() {
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
 	router.POST("/calculateRisk", getCalculateRisk)
+	router.GET("/openai", openAiHandler)
 	// router.GET("/albums/:id", getAlbumByID)
 
 	if p.MustGetString("host") == "local" {
@@ -173,25 +174,43 @@ func getCalculateRisk(c *gin.Context) {
 }
 
 // OPEN AI
-func openAi() {
+func openAiHandler(c *gin.Context) {
+	data, err := openAi()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Return the JSON response
+	c.IndentedJSON(http.StatusOK, data)
+}
+func openAi() (interface{}, error) {
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	client := resty.New()
-
 	response, err := client.R().
 		SetHeader("Authorization", "Bearer "+apiKey).
 		SetHeader("Content-Type", "application/json").
 		SetBody(`{
-            "model": "text-davinci-003",
-            "prompt": "Write a Go function to add two numbers",
-            "max_tokens": 100
+            "model": "gpt-3.5-turbo",
+            "messages": [
+        		{"role": "user", "content": "say Hello"}
+    		],
+            "max_tokens": 500
         }`).
-		Post("https://api.openai.com/v1/completions")
+		Post("https://api.openai.com/v1/chat/completions")
 
 	if err != nil {
 		fmt.Println("Error making request:", err)
-		return
+		return nil, err
+	}
+
+	var responseBody map[string]interface{}
+	err = json.Unmarshal(response.Body(), &responseBody)
+	if err != nil {
+		return nil, err
 	}
 
 	// Print the response
-	fmt.Println(response)
+	fmt.Println(responseBody)
+	return responseBody, nil
 }
