@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -44,17 +45,14 @@ type Home struct {
 type Scenario struct {
 	ScenarioName string  `json:"scenario_name"`
 	Cost         float32 `json:"cost"`
-}
-
-type Gap struct {
-	AssetName string  `json:"gap_name"`
-	Quote     float32 `json:"cost"`
+	AssetName    string  `json:"gap_name"`
+	GapCost      float32 `json:"gap_cost"`
 }
 
 type GapsAndScenarios struct {
 	Scenario []Scenario `json:"scenarios"`
-	Gap      []Gap      `json:"gaps"`
 }
+
 type AllDropDowns struct {
 	Auto Auto `json:"auto"`
 	Home Home `json:"home"`
@@ -121,6 +119,7 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
+	luck := assetsReq.Luck
 	assets := assetsReq.Assets
 
 	if len(assets) == 0 {
@@ -132,6 +131,18 @@ func getCalculateRisk(c *gin.Context) {
 	// Output -> coverageRisk, 3 is greatest risk
 	// Scenario
 	// Total payment per scenarios
+	fmt.Println("Luck! " + fmt.Sprint(luck))
+	maxGaps := 3
+	// Can't easily use case statement w/Numbers
+	if luck > 75 {
+		maxGaps = 1
+	} else if luck > 25 {
+		maxGaps = 2
+	} else {
+		maxGaps = 3
+	}
+
+	fmt.Println(maxGaps)
 	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
 
 	if err != nil {
@@ -144,7 +155,8 @@ func getCalculateRisk(c *gin.Context) {
 	byteResult, _ := io.ReadAll(fileContent)
 
 	json.Unmarshal(byteResult, &gapsAndScenarios)
-	// fmt.Println(albums.Albums)
-	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
 
+	fmt.Println(gapsAndScenarios)
+
+	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
 }
