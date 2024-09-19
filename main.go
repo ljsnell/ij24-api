@@ -168,7 +168,6 @@ func getCalculateRisk(c *gin.Context) {
 	}
 	fmt.Println(sum)
 	fmt.Println(vehicleArray)
-	// fmt.Println(gapsAndScenarios.Scenario[0])
 
 	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
 }
