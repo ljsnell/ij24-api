@@ -40,7 +40,6 @@ type Home struct {
 	WoodburningStoves []string `json:"woodburningStoves"`
 	Trampoline        []string `json:"trampoline"`
 	SwimmingPool      []string `json:"swimmingPool"`
-	// scenarios
 }
 
 type Scenario struct {
@@ -48,10 +47,11 @@ type Scenario struct {
 	Cost         float32 `json:"cost"`
 	AssetName    string  `json:"gap_name"`
 	GapCost      float32 `json:"gap_cost"`
+	AssetClass   string  `json:"assetClass"`
 }
 
 type GapsAndScenarios struct {
-	Scenario []Scenario `json:"scenarios"`
+	Scenarios []Scenario `json:"scenarios"`
 }
 
 type AllDropDowns struct {
@@ -158,8 +158,17 @@ func getCalculateRisk(c *gin.Context) {
 	byteResult, _ := io.ReadAll(fileContent)
 
 	json.Unmarshal(byteResult, &gapsAndScenarios)
-
-	fmt.Println(gapsAndScenarios)
+	sum := 0
+	var vehicleArray []Scenario
+	for _, scenario := range gapsAndScenarios.Scenarios {
+		sum += int(scenario.GapCost)
+		if scenario.AssetClass == "vehicle" {
+			vehicleArray = append(vehicleArray, scenario)
+		}
+	}
+	fmt.Println(sum)
+	fmt.Println(vehicleArray)
+	// fmt.Println(gapsAndScenarios.Scenario[0])
 
 	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
 }
