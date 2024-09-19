@@ -2,17 +2,26 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-resty/resty/v2"
 	"github.com/magiconair/properties"
 )
 
+type Asset struct {
+	Name         string  `json:"name"`
+	Value        float32 `json:"value"`
+	CoverageRisk float32 `json:"coverageRisk"`
+	AssetClass   string  `json:"assetClass"`
+}
 type AssetsRequest struct {
-	Assets []string `json:"assets"`
+	Luck   float32 `json:"luck"`
+	Assets []Asset `json:"assets"`
 }
 
 type Auto struct {
@@ -31,23 +40,20 @@ type Home struct {
 	WoodburningStoves []string `json:"woodburningStoves"`
 	Trampoline        []string `json:"trampoline"`
 	SwimmingPool      []string `json:"swimmingPool"`
-	// scenarios
 }
 
 type Scenario struct {
 	ScenarioName string  `json:"scenario_name"`
 	Cost         float32 `json:"cost"`
-}
-
-type Gap struct {
-	AssetName string  `json:"asset_name"`
-	Quote     float32 `json:"quote"`
+	AssetName    string  `json:"gap_name"`
+	GapCost      float32 `json:"gap_cost"`
+	AssetClass   string  `json:"assetClass"`
 }
 
 type GapsAndScenarios struct {
-	Scenario []Scenario `json:"scenarios"`
-	Gap      []Gap      `json:"gaps"`
+	Scenarios []Scenario `json:"scenarios"`
 }
+
 type AllDropDowns struct {
 	Auto Auto `json:"auto"`
 	Home Home `json:"home"`
@@ -55,6 +61,8 @@ type AllDropDowns struct {
 
 var ddData *AllDropDowns
 var gapsAndScenarios *GapsAndScenarios
+
+// const apiURL = "https://api.openai.com/v1/chat/completions"
 
 func main() {
 	// init from a file
@@ -65,6 +73,7 @@ func main() {
 	router.GET("/score", getScore)
 	router.GET("/add/:assetclass", getAssets)
 	router.POST("/calculateRisk", getCalculateRisk)
+	router.GET("/openai", openAiHandler)
 	// router.GET("/albums/:id", getAlbumByID)
 
 	if p.MustGetString("host") == "local" {
@@ -114,6 +123,7 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
+	luck := assetsReq.Luck
 	assets := assetsReq.Assets
 
 	if len(assets) == 0 {
@@ -121,6 +131,22 @@ func getCalculateRisk(c *gin.Context) {
 		return
 	}
 
+	// luck (single int), assets [{value: xxx, coverageRisk:1-3}]
+	// Output -> coverageRisk, 3 is greatest risk
+	// Scenario
+	// Total payment per scenarios
+	fmt.Println("Luck! " + fmt.Sprint(luck))
+	maxGaps := 3
+	// Can't easily use case statement w/Numbers
+	if luck > 75 {
+		maxGaps = 1
+	} else if luck > 25 {
+		maxGaps = 2
+	} else {
+		maxGaps = 3
+	}
+
+	fmt.Println(maxGaps)
 	fileContent, err := os.Open("jsons/scenarios_and_gaps.json")
 
 	if err != nil {
@@ -133,7 +159,58 @@ func getCalculateRisk(c *gin.Context) {
 	byteResult, _ := io.ReadAll(fileContent)
 
 	json.Unmarshal(byteResult, &gapsAndScenarios)
-	// fmt.Println(albums.Albums)
-	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
+	sum := 0
+	var vehicleArray []Scenario
+	for _, scenario := range gapsAndScenarios.Scenarios {
+		sum += int(scenario.GapCost)
+		if scenario.AssetClass == "vehicle" {
+			vehicleArray = append(vehicleArray, scenario)
+		}
+	}
+	fmt.Println(sum)
+	fmt.Println(vehicleArray)
 
+	c.IndentedJSON(http.StatusOK, gapsAndScenarios)
+}
+
+// OPEN AI
+func openAiHandler(c *gin.Context) {
+	data, err := openAi()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Return the JSON response
+	c.IndentedJSON(http.StatusOK, data)
+}
+func openAi() (interface{}, error) {
+	apiKey := os.Getenv("OPENAI_API_KEY")
+	client := resty.New()
+	response, err := client.R().
+		SetHeader("Authorization", "Bearer "+apiKey).
+		SetHeader("Content-Type", "application/json").
+		SetBody(`{
+            "model": "gpt-3.5-turbo",
+            "messages": [
+        		{"role": "user", "content": "say Hello"}
+    		],
+            "max_tokens": 500
+        }`).
+		Post("https://api.openai.com/v1/chat/completions")
+
+	if err != nil {
+		fmt.Println("Error making request:", err)
+		return nil, err
+	}
+
+	var responseBody map[string]interface{}
+	err = json.Unmarshal(response.Body(), &responseBody)
+	if err != nil {
+		return nil, err
+	}
+
+	// Print the response
+	fmt.Println(responseBody)
+	return responseBody, nil
 }

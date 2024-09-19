@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2c8f5234-b936-4ce1-a6eb-834c85fb7c2e",
+		"_postman_id": "dbff133d-667b-44c2-86a4-735df1c63c9d",
 		"name": "IJ24",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27104842"
+		"_exporter_id": "6807200"
 	},
 	"item": [
 		{
@@ -39,6 +39,14 @@
 				},
 				{
 					"name": "score",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept-encoding": true,
+							"accept": true,
+							"user-agent": true
+						}
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -52,6 +60,77 @@
 							],
 							"path": [
 								"score"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calculateRisk",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"luck\": 55,\r\n    \"assets\": [\r\n        {\r\n            \"name\": \"Kia Optima\",\r\n            \"value\": 8770,\r\n            \"coverageRisk\": 2,\r\n            \"assetClass\": \"vehicle\"\r\n        },\r\n        {\r\n            \"name\": \"Summer Home\",\r\n            \"value\": 125580,\r\n            \"coverageRisk\": 1,\r\n            \"assetClass\": \"house\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ij24-api.fly.dev/calculateRisk",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"calculateRisk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assetclass (house)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ij24-api.fly.dev/add/house",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"add",
+								"house"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assetclass (vehicle)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ij24-api.fly.dev/add/house",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"add",
+								"house"
 							]
 						}
 					},
@@ -82,20 +161,28 @@
 					"response": []
 				},
 				{
-					"name": "single album",
+					"name": "calculateRisk",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"luck\": 55,\r\n    \"assets\": [\r\n        {\r\n            \"name\": \"Kia Optima\",\r\n            \"value\": 8770,\r\n            \"coverageRisk\": 2,\r\n            \"assetClass\": \"vehicle\"\r\n        },\r\n        {\r\n            \"name\": \"Summer Home\",\r\n            \"value\": 125580,\r\n            \"coverageRisk\": 1,\r\n            \"assetClass\": \"house\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/albums/2",
+							"raw": "http://localhost:8080/calculateRisk",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"albums",
-								"2"
+								"calculateRisk"
 							]
 						}
 					},

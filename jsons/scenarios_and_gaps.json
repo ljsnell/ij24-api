@@ -2,29 +2,187 @@
     "scenarios": [
         {
             "scenario_name": "Broken Window",
-            "cost": 500
-        },
-        {
-            "scenario_name": "Home Fire",
-            "cost": 40000
+            "cost": 500,
+            "gap_name": "Window Coverage",
+            "gap_cost": 4.25,
+            "assetClass": "vehicle",
+            "id": "e1d5"
         },
         {
             "scenario_name": "Stolen Car",
-            "cost": 4200
-        }
-    ],
-    "gaps": [
-        {
-            "scenario_name": "Window Coverage",
-            "cost": 4.25
+            "cost": 4200,
+            "gap_name": "Optional Thievery Add-on",
+            "gap_cost": 4.20,
+            "assetClass": "vehicle",
+            "id": "d738"
         },
         {
-            "scenario_name": "Optional Fire Add-on",
-            "cost": 28.50
+            "scenario_name": "Collision with Another Vehicle",
+            "cost": 2500,
+            "gap_name": "Accident Damage Coverage",
+            "gap_cost": 5.50,
+            "assetClass": "vehicle",
+            "id": "c2d3"
         },
         {
-            "scenario_name": "Optional Thievery Add-on",
-            "cost": 4.20
+            "scenario_name": "Flood Damage",
+            "cost": 3700,
+            "gap_name": "Comprehensive Water Damage Coverage",
+            "gap_cost": 3.75,
+            "assetClass": "vehicle",
+            "id": "f3a7"
+        },
+        {
+            "scenario_name": "Hailstorm Damage",
+            "cost": 1800,
+            "gap_name": "Weather Impact Add-on",
+            "gap_cost": 2.90,
+            "assetClass": "vehicle",
+            "id": "a1b2"
+        },
+        {
+            "scenario_name": "Engine Failure",
+            "cost": 3200,
+            "gap_name": "Mechanical Breakdown Insurance",
+            "gap_cost": 4.10,
+            "assetClass": "vehicle",
+            "id": "b5c3"
+        },
+        {
+            "scenario_name": "Tire and Rim Damage from Pothole",
+            "cost": 600,
+            "gap_name": "Road Hazard Protection",
+            "gap_cost": 2.15,
+            "assetClass": "vehicle",
+            "id": "7d8a"
+        },
+        {
+            "scenario_name": "Vandalism (Keyed Car)",
+            "cost": 1500,
+            "gap_name": "Vandalism Protection Plan",
+            "gap_cost": 3.25,
+            "assetClass": "vehicle",
+            "id": "c4f9"
+        },
+        {
+            "scenario_name": "Windshield Replacement",
+            "cost": 800,
+            "gap_name": "Glass Protection Coverage",
+            "gap_cost": 1.90,
+            "assetClass": "vehicle",
+            "id": "d1e4"
+        },
+        {
+            "scenario_name": "Towing and Labor after Breakdown",
+            "cost": 250,
+            "gap_name": "Roadside Assistance",
+            "gap_cost": 1.50,
+            "assetClass": "vehicle",
+            "id": "e5b6"
+        },
+        {
+            "scenario_name": "Animal Collision (Deer Strike)",
+            "cost": 2800,
+            "gap_name": "Wildlife Collision Add-on",
+            "gap_cost": 4.35,
+            "assetClass": "vehicle",
+            "id": "f3b7"
+        },
+        {
+            "scenario_name": "Theft of Car Stereo",
+            "cost": 400,
+            "gap_name": "Interior Theft Coverage",
+            "gap_cost": 2.00,
+            "assetClass": "vehicle",
+            "id": "4d2e"
+        },
+        {
+            "scenario_name": "Home Fire",
+            "cost": 140000,
+            "gap_name": "Optional Fire Add-on",
+            "gap_cost": 28.50,
+            "assetClass": "house",
+            "id": "a8d1"
+        },
+        {
+            "scenario_name": "Flooded Basement",
+            "cost": 25000,
+            "gap_name": "Flood Damage Add-on",
+            "gap_cost": 15.75,
+            "assetClass": "house",
+            "id": "b6e2"
+        },
+        {
+            "scenario_name": "Roof Damage from Hailstorm",
+            "cost": 18000,
+            "gap_name": "Hail and Wind Protection",
+            "gap_cost": 12.30,
+            "assetClass": "house",
+            "id": "c9a4"
+        },
+        {
+            "scenario_name": "Termite Infestation",
+            "cost": 10000,
+            "gap_name": "Pest Control Add-on",
+            "gap_cost": 7.50,
+            "assetClass": "house",
+            "id": "d1e3"
+        },
+        {
+            "scenario_name": "Kitchen Fire",
+            "cost": 32000,
+            "gap_name": "Kitchen Fire Protection",
+            "gap_cost": 18.25,
+            "assetClass": "house",
+            "id": "a2b7"
+        },
+        {
+            "scenario_name": "Broken Windows from Vandalism",
+            "cost": 5000,
+            "gap_name": "Vandalism Protection Plan",
+            "gap_cost": 6.40,
+            "assetClass": "house",
+            "id": "c3e8"
+        },
+        {
+            "scenario_name": "Electrical Surge Damage",
+            "cost": 12000,
+            "gap_name": "Electrical Surge Protection",
+            "gap_cost": 9.20,
+            "assetClass": "house",
+            "id": "b7d1"
+        },
+        {
+            "scenario_name": "Plumbing Leak and Water Damage",
+            "cost": 15000,
+            "gap_name": "Plumbing and Water Damage Coverage",
+            "gap_cost": 10.80,
+            "assetClass": "house",
+            "id": "d8c5"
+        },
+        {
+            "scenario_name": "Mold Remediation",
+            "cost": 22000,
+            "gap_name": "Mold Protection Add-on",
+            "gap_cost": 13.95,
+            "assetClass": "house",
+            "id": "a9d6"
+        },
+        {
+            "scenario_name": "Tree Falling on House",
+            "cost": 35000,
+            "gap_name": "Fallen Tree Damage Coverage",
+            "gap_cost": 17.10,
+            "assetClass": "house",
+            "id": "b2c9"
+        },
+        {
+            "scenario_name": "Garage Fire",
+            "cost": 45000,
+            "gap_name": "Garage Fire Add-on",
+            "gap_cost": 19.80,
+            "assetClass": "house",
+            "id": "e4d3"
         }
     ]
 }
