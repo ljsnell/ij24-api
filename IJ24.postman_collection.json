@@ -66,6 +66,34 @@
 					"response": []
 				},
 				{
+					"name": "open",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true,
+							"accept-encoding": true,
+							"accept": true,
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ij24-api.fly.dev/openai",
+							"protocol": "https",
+							"host": [
+								"ij24-api",
+								"fly",
+								"dev"
+							],
+							"path": [
+								"openai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "calculateRisk",
 					"request": {
 						"method": "POST",

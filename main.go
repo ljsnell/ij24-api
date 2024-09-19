@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -192,9 +193,15 @@ func openAiHandler(c *gin.Context) {
 	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	// 	return
 	// }
+	// Generate a random integer between 60 and 85
+	min := 60
+	max := 85
+	randomInt := rand.Intn(max-min+1) + min
+
+	fmt.Println("Random integer between 60 and 75:", randomInt)
 
 	response := map[string]int{
-		"risk_rating": 75,
+		"risk_rating": randomInt,
 	}
 
 	// Return the JSON response
